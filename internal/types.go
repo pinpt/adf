@@ -28,7 +28,8 @@ type MarkVisitor interface {
 
 // Mark is a mark detail
 type Mark struct {
-	Type string `json:"type"`
+	Type  string                 `json:"type"`
+	Attrs map[string]interface{} `json:"attrs"`
 }
 
 // Node is the base primitive for all node types
@@ -113,7 +114,7 @@ func (m *markVisitor) Accept(contentType ContentType, mark Mark) bool {
 }
 
 func (m *markVisitor) Visit(contentType ContentType, mark Mark, content string) (string, error) {
-	return "", nil
+	return m.renderer(mark, content)
 }
 
 var nodeVisitors = make([]NodeVisitor, 0)
@@ -132,6 +133,14 @@ func wrapHTMLTag(tag string, next func() (string, error), attrs ...string) (stri
 	if err != nil {
 		return "", err
 	}
+	var attr string
+	if len(attrs) > 0 {
+		attr = " " + strings.Join(attrs, " ")
+	}
+	return fmt.Sprintf("<%[1]s%[3]s>%[2]s</%[1]s>", tag, val, attr), nil
+}
+
+func wrapHTMLTagContent(tag string, val string, attrs ...string) (string, error) {
 	var attr string
 	if len(attrs) > 0 {
 		attr = " " + strings.Join(attrs, " ")
