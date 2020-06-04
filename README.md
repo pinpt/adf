@@ -24,7 +24,7 @@ go get -u github.com/pinpt/adf
 
 import github.com/pinpt/adf
 
-```
+```golang
 buf, err := adf.GenerateHTMLFromADF([]byte(`{
   "version": 1,
   "type": "doc",
