@@ -34,11 +34,12 @@ type Mark struct {
 
 // Node is the base primitive for all node types
 type Node struct {
-	Type    string                 `json:"type"`
-	Content []Node                 `json:"content"`
-	Text    string                 `json:"text"`
-	Marks   []Mark                 `json:"marks"`
-	Attrs   map[string]interface{} `json:"attrs"`
+	Type    string                 `json:"type,omitempty"`
+	Content []Node                 `json:"content,omitempty"`
+	Text    string                 `json:"text,omitempty"`
+	Marks   []Mark                 `json:"marks,omitempty"`
+	Attrs   map[string]interface{} `json:"attrs,omitempty"`
+	Version int                    `json:"version,omitempty"` // Version is only required at the root, otherwise can be ingored or set to 0
 }
 
 // Parse will parse ADF formatted content into Node
